@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>History for object {{ object }}</h1>
+<table>
+    <thead><tr>
+        <th>Date</th>
+        <th>User</th>
+        <th>Action</th>
+        <th>Comment</th>
+    </tr></thead>
+    <tbody>
+    {% for event in object_list %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td>{{ event.date }}</td>
+            <td>{{ event.user }}</td>
+            <td>{{ event.get_action_display }}</td>
+            <td>{{ event.comment }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
