@@ -1,6 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
-from django.views.generic.list_detail import object_list
+from django.views.generic.list import ListView
 
 class HerodotosEnabledMixin(object):
     action_id = None
@@ -11,14 +11,27 @@ class HerodotosEnabledMixin(object):
         if self.action_id is not None:
             self.object.record(action=self.action_id, comment=comment, user=user)
 
-def object_history(request, app_label, model, object_pk):
-    contenttype = get_object_or_404(ContentType, app_label=app_label, model=model)
-    object = get_object_or_404(contenttype.model_class(), pk=object_pk)
+
+class ObjectHistoryView(ListView):
+    """A generic view to display the history of an object."""
     
-    return object_list(request,
-        queryset=object.history.all(),
-        template_name='herodotos/object_history.html',
-        extra_context={
-            'object': object,
-            'contenttype': contenttype,
+    def get_queryset(self):
+        contenttype = get_object_or_404(ContentType,
+                                            app_label=self.kwargs['app_label'],
+                                            model=self.kwargs['model'])
+        object = get_object_or_404(contenttype.model_class(), pk=self.kwargs['object_pk'])
+        
+        self.contenttype, self.object = contenttype, object
+        return object.history.all()
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super(ObjectHistoryView, self).get_context_data(**kwargs)
+        context.update({
+            'object': self.object,
+            'contenttype': self.contenttype
         })
+        
+        return context
+
+object_history = ObjectHistoryView.as_view(template_name='herodotos/object_history.html')
