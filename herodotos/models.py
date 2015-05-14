@@ -12,7 +12,7 @@ from toolbox.choices import pick_choice
 class Event(models.Model):
     date = models.DateTimeField(_('date'), default=datetime.now)
     user = models.ForeignKey(User, verbose_name=_('user'), related_name='history')
-    action = models.PositiveIntegerField(_('action'), max_length=20)
+    action = models.PositiveIntegerField(_('action'))
     comment = models.TextField(_('comment'), blank=True)
     
     # generic FK
