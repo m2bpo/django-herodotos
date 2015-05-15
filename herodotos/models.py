@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from herodotos.actions import get_action_list_for_contenttype
@@ -18,7 +18,7 @@ class Event(models.Model):
     # generic FK
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
+    content_object = GenericForeignKey()
     
     class Meta:
         verbose_name = _('event')
