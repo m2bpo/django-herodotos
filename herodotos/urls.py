@@ -1,5 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
-urlpatterns = patterns('herodotos.views',
-    url('^(?P<app_label>\w+)/(?P<model>\w+)/(?P<object_pk>\d+)/$', view='object_history', name='herodotos-object-history'),
-)
+from herodotos.views import object_history
+
+urlpatterns = [
+    url('^(?P<app_label>\w+)/(?P<model>\w+)/(?P<object_pk>\d+)/$', view=object_history, name='herodotos-object-history'),
+]
+
