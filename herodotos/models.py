@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -10,7 +9,7 @@ from toolbox.choices import pick_choice
 
 
 class Event(models.Model):
-    date = models.DateTimeField(_('date'), default=datetime.now)
+    date = models.DateTimeField(_('date'), default=timezone.now)
     user = models.ForeignKey(User, verbose_name=_('user'), related_name='history')
     action = models.PositiveIntegerField(_('action'))
     comment = models.TextField(_('comment'), blank=True)
