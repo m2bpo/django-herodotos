@@ -50,9 +50,3 @@ class HerodotosEnabledMixin(object):
     def record(self, **kwargs):
         e = Event(content_object=self, **kwargs)
         e.save()
-    
-    def get_history_url(self):
-        from django.core.urlresolvers import reverse
-        app_label = self._meta.app_label
-        model = self._meta.object_name.lower()        
-        return reverse('herodotos-object-history', args=[app_label, model, self.pk])
